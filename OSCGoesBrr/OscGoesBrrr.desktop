@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=OscGoesBrrr
-Comment=Haptics for VRChat
-Exec=/usr/bin/oscgoesbrrr
-Icon=oscgoesbrrr
-Categories=Network;
-Terminal=false
