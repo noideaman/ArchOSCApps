@@ -1,0 +1,2 @@
+#!/bin/bash
+exec electron26 /usr/lib/oscgoesbrrr/app.asar "$@"

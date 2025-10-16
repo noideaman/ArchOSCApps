@@ -1,0 +1,47 @@
+# Maintainer: noideaman <packages@weebvr.com>
+# Contributor SenkyDragon <https://github.com/SenkyDragon>
+pkgname=oscgoesbrrr
+pkgver=1.42.0
+pkgrel=3
+pkgdesc="Haptics for VRChat"
+arch=('x86_64')
+url="https://github.com/OscToys/OscGoesBrrr"
+license=('CC-BY-NC-SA-4.0')
+depends=('electron26')
+makedepends=('git' 'npm')
+source=("git+https://github.com/OscToys/OscGoesBrrr.git#tag=release/${pkgver}"
+        "oscgoesbrrr"
+        "OscGoesBrrr.desktop")
+sha256sums=('89c17bc00028128e692a6bfcc700b08868ce904d59adae7f1ec149345e2f7e13'
+            '494a51b828b60deeff2b9f27d7d8867eb8ad6f4fcac8e281b1dc9b5eb188eaf9'
+            '8a519694bf1c38fb7838202eb74524835a4f6905f945b6942fc3f990d83fc1e4')
+
+prepare() {
+    cd "$srcdir/OscGoesBrrr"
+
+    npm install
+}
+
+build() {
+    cd "$srcdir/OscGoesBrrr"
+    
+    npm run build
+    npx electron-builder --linux dir --config.electronDist=/usr/lib/electron26 --config.electronVersion=$(electron26 --version | sed 's/v//')
+}
+
+package() {
+    cd "$srcdir/OscGoesBrrr"
+
+    # Install application files
+    install -dm755 "$pkgdir/usr/lib/$pkgname"
+    install -Dm644 dist/linux-unpacked/resources/app.asar "$pkgdir/usr/lib/$pkgname/app.asar"
+
+    # Install launcher script
+    install -Dm755 "$srcdir/oscgoesbrrr" "$pkgdir/usr/bin/oscgoesbrrr"
+
+    # Install desktop file
+    install -Dm644 "$srcdir/OscGoesBrrr.desktop" "$pkgdir/usr/share/applications/OscGoesBrrr.desktop"
+
+    # Install icon
+    install -Dm644 src/icons/ogb-logo.png "$pkgdir/usr/share/pixmaps/oscgoesbrrr.png"
+}
