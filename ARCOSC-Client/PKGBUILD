@@ -24,8 +24,8 @@ sha256sums=('9100d77867aa1a80a0494fd2a273391c8ea2ec0bfd51d9309ac4a614b2e3f74e'
 
 build() {
     cd "$pkgname-$pkgver"
-    sed -i s/"electronVersion": "../"electronVersion": "$pkgver/ package.json
-   export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+    #sed -i "s/electronVersion:\ ../electronVersion:\ $pkgver/" package.json
+    export ELECTRON_SKIP_BINARY_DOWNLOAD=1
     export XDG_CACHE_HOME="$srcdir"
 
     rm -rf .github build CONTRIBUTING.md .gitignore README.md
