@@ -2,6 +2,7 @@
 
 pkgname=oscleash-nuitka
 _pkgname=OSCLeash
+_pkgname2=oscleash
 pkgver=2.2.0
 pkgrel=2
 pkgdesc="Get pulled around in VRChat (built with nuitka)"
@@ -11,7 +12,7 @@ license=("MIT")
 depends=("python")
 makedepends=("python-setuptools" "python-osc" "python-tinyoscquery" "python-inputs" "nuitka")
 provides=("oscleash")
-conflicts=("${pkgname}" "${pkgname}-git")
+conflicts=("${_pkgname2}" "${pkgname}-git" "${_pkgname2}-git")
 source=("https://github.com/ZenithVal/${_pkgname}/archive/refs/tags/v${pkgver}.tar.gz"
         "OSCLeash.desktop"
         "OSCLeash.svg"
