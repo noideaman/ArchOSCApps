@@ -59,7 +59,13 @@ jobs:
             --output-filename=myapp \
             --output-dir=dist \
             OSCLeash/OSCLeash.py
-
+            
+      - name: Install ViGEmBus SDK (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          choco install vigembus -y
+        shell: pwsh
+        
       - name: Build with Nuitka (Windows)
         if: runner.os == 'Windows'
         shell: cmd
