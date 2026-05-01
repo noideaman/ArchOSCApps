@@ -1,6 +1,5 @@
 # Maintainer: noideaman <pkgbuilds@weebvr.com>
 # Based on the PKGBUILD of oscgoesbrr by Torge Matthies <openglfreak at googlemail dot com>
-# Contributor: Comfy Chloe <https://github.com/ComfyChloe>
 
 pkgname='arcosc-client'
 pkgdesc='The transparent, feature-rich desktop bridge for VRChat remote control'
