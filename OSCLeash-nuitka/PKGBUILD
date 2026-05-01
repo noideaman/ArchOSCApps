@@ -1,5 +1,5 @@
-# Maintainer: noideaman <pkgbuilds@weebvr.com?
-# Contributor: ZenithVal <https://github.com/ZenithVal>
+# Maintainer: noideaman <pkgbuilds@weebvr.com>
+
 pkgname=oscleash-nuitka
 _pkgname=OSCLeash
 pkgver=2.2.0
@@ -28,9 +28,8 @@ build () {
 }
 package() {
     # Extract and copy everything to /opt
-    install -dm755 "$pkgdir/opt/$_pkgname"
+    install -dm757 "$pkgdir/opt/$_pkgname"
     cp "$srcdir/$_pkgname-$pkgver/OSCLeash.bin" "$pkgdir/opt/$_pkgname/OSCLeash.bin"
-    cp "$srcdir/$_pkgname-$pkgver/Config.json" "$pkgdir/opt/$_pkgname/Config.json"
     
     # Install desktop file
     install -Dm644 "$srcdir/OSCLeash.desktop" \
