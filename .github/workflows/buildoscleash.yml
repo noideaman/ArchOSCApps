@@ -63,24 +63,23 @@ jobs:
           python -m nuitka \
             --standalone \
             --onefile \
-            --include-package=repo_one \
             --follow-imports \
             --output-filename=myapp \
             --output-dir=dist \
             repo-two/OSCLeash.py
 
-      - name: Build with Nuitka (Windows)
-        if: runner.os == 'Windows'
-        shell: cmd
-        run: |
-          python -m nuitka ^
-            --standalone ^
-            --onefile ^
-            --include-package=repo_one ^
-            --follow-imports ^
-            --output-filename=myapp.exe ^
-            --output-dir=dist ^
-            repo-two\OSCLeash.py
+      #- name: Build with Nuitka (Windows)
+        #if: runner.os == 'Windows'
+        #shell: cmd
+        #run: |
+          #python -m nuitka ^
+            #--standalone ^
+            #--onefile ^
+            #--include-package=repo_one ^
+            #--follow-imports ^
+            #--output-filename=myapp.exe ^
+            #--output-dir=dist ^
+            #repo-two\OSCLeash.py
 
       # --- Upload ---
       - name: Upload binary
