@@ -74,6 +74,7 @@ jobs:
             --standalone ^
             --onefile ^
             --follow-imports ^
+            --include-package=vgamepad ^
             --output-filename=myapp.exe ^
             --output-dir=dist ^
             OSCLeash\OSCLeash.py
