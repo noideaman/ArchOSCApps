@@ -1,6 +1,6 @@
 # Maintainer: noideaman <packages@weebvr.com>
 # Contributor: cyberkitsune <https://github.com/cyberkitsune>
-pkgname=tinyoscquery
+pkgname=python-tinyoscquery
 pkgver=0.1.3
 pkgrel=1
 pkgdesc="OSCQuery for Python"
