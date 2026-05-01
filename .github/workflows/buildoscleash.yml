@@ -24,21 +24,13 @@ jobs:
       - name: Checkout main repo
         uses: actions/checkout@v4
 
-      # --- Repo 1: pip-installable module (only on GitHub) ---
-      - name: Install pip module from GitHub
-        run: pip install git+https://github.com/cyberkitsune/tinyoscquery.git@main
-
-
-      # --- Repo 2: Python script to be compiled into the binary ---
+      # --- Checkout OSCLeash ---
       - name: Checkout script repo
         uses: actions/checkout@v4
         with:
           repository: ZenithVal/OSCLeash       # ← the script repo
-          path: repo-two
+          path: OSCLeash
 
-      #- name: Copy script into project
-      #  run: |
-      #    cp repo-two/the_script.py src/the_script.py   # ← adjust paths
 
       # --- Python + Nuitka setup ---
       - name: Set up Python
@@ -49,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install nuitka
-          pip install -r repo-two/requirements.txt
+          pip install -r OSCLeash/requirements.txt
 
       # --- Linux: C compiler tooling ---
       - name: Install build tools (Linux)
@@ -63,10 +55,11 @@ jobs:
           python -m nuitka \
             --standalone \
             --onefile \
+            --include-package=repo_one \
             --follow-imports \
-            --output-filename=OSCLeash \
+            --output-filename=myapp \
             --output-dir=dist \
-            repo-two/OSCLeash.py
+            OSCLeash/OSCLeash.py
 
       - name: Build with Nuitka (Windows)
         if: runner.os == 'Windows'
@@ -75,15 +68,16 @@ jobs:
           python -m nuitka ^
             --standalone ^
             --onefile ^
+            --include-package=repo_one ^
             --follow-imports ^
-            --output-filename=OSCLeash.exe ^
+            --output-filename=myapp.exe ^
             --output-dir=dist ^
-            repo-two\OSCLeash.py
+            OSCLeash\OSCLeash.py
 
       # --- Upload ---
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact-name }}
-          path: dist/OSCLeash${{ matrix.output-ext }}
+          path: dist/myapp${{ matrix.output-ext }}
           retention-days: 30
