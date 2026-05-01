@@ -11,7 +11,7 @@ license=("MIT")
 depends=("python")
 makedepends=("python-setuptools" "python-osc" "python-tinyoscquery" "python-inputs" "nuitka")
 provides=("oscleash")
-conflicts=("${_pkgname}" "${_pkgname}-git")
+conflicts=("${pkgname}" "${pkgname}-git")
 source=("https://github.com/ZenithVal/${_pkgname}/archive/refs/tags/v${pkgver}.tar.gz"
         "OSCLeash.desktop"
         "OSCLeash.svg"
