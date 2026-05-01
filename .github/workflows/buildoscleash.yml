@@ -28,6 +28,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           choco install vigembus -y
+          start-sleep -Seconds 5
         shell: pwsh
 
       # --- Checkout OSCLeash ---
@@ -44,9 +45,20 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install dependencies
+      - name: Install dependencies (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
         run: |
-          pip install nuitka
+          pip install setuptools wheel
+          pip install vgamepad --no-build-isolation
+          pip install -r OSCLeash/requirements.txt
+          # Pre-install ziglang and zstandard so Nuitka doesn't prompt
+          pip install nuitka ziglang zstandard
+
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          pip install nuitka ziglang zstandard
           pip install -r OSCLeash/requirements.txt
 
       # --- Linux: C compiler tooling ---
@@ -62,7 +74,7 @@ jobs:
             --standalone \
             --onefile \
             --follow-imports \
-            --output-filename=myapp \
+            --output-filename=OSCLeash \
             --output-dir=dist \
             OSCLeash/OSCLeash.py
         
@@ -74,8 +86,9 @@ jobs:
             --standalone ^
             --onefile ^
             --follow-imports ^
+            --assume-yes-for-downloads ^
             --include-package=vgamepad ^
-            --output-filename=myapp.exe ^
+            --output-filename=OSCLeash.exe ^
             --output-dir=dist ^
             OSCLeash\OSCLeash.py
 
