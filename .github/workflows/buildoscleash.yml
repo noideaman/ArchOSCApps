@@ -55,7 +55,6 @@ jobs:
           python -m nuitka \
             --standalone \
             --onefile \
-            --include-package=repo_one \
             --follow-imports \
             --output-filename=myapp \
             --output-dir=dist \
@@ -68,7 +67,6 @@ jobs:
           python -m nuitka ^
             --standalone ^
             --onefile ^
-            --include-package=repo_one ^
             --follow-imports ^
             --output-filename=myapp.exe ^
             --output-dir=dist ^
