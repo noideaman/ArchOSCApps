@@ -12,11 +12,11 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            artifact-name: myapp-linux
+            artifact-name: OSCLeash-linux
             output-ext: ""
-          #- os: windows-latest
-            #artifact-name: myapp-windows
-            #output-ext: ".exe"
+          - os: windows-latest
+            artifact-name: OSCLeash-windows
+            output-ext: ".exe"
 
     runs-on: ${{ matrix.os }}
 
@@ -64,27 +64,26 @@ jobs:
             --standalone \
             --onefile \
             --follow-imports \
-            --output-filename=myapp \
+            --output-filename=OSCLeash \
             --output-dir=dist \
             repo-two/OSCLeash.py
 
-      #- name: Build with Nuitka (Windows)
-        #if: runner.os == 'Windows'
-        #shell: cmd
-        #run: |
-          #python -m nuitka ^
-            #--standalone ^
-            #--onefile ^
-            #--include-package=repo_one ^
-            #--follow-imports ^
-            #--output-filename=myapp.exe ^
-            #--output-dir=dist ^
-            #repo-two\OSCLeash.py
+      - name: Build with Nuitka (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          python -m nuitka ^
+            --standalone ^
+            --onefile ^
+            --follow-imports ^
+            --output-filename=OSCLeash.exe ^
+            --output-dir=dist ^
+            repo-two\OSCLeash.py
 
       # --- Upload ---
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact-name }}
-          path: dist/myapp${{ matrix.output-ext }}
+          path: dist/OSCLeash${{ matrix.output-ext }}
           retention-days: 30
