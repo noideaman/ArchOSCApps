@@ -1,0 +1,91 @@
+# .github/workflows/build.yml
+name: Build Nuitka Binaries
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact-name: OSCLeash-linux
+            output-ext: ""
+          - os: windows-latest
+            artifact-name: OSCLeash-windows
+            output-ext: ".exe"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+
+      # --- Repo 1: pip-installable module (only on GitHub) ---
+      - name: Install pip module from GitHub
+        run: pip install git+https://github.com/cyberkitsune/tinyoscquery.git@main
+
+
+      # --- Repo 2: Python script to be compiled into the binary ---
+      - name: Checkout script repo
+        uses: actions/checkout@v4
+        with:
+          repository: ZenithVal/OSCLeash       # ← the script repo
+          path: repo-two
+
+      #- name: Copy script into project
+      #  run: |
+      #    cp repo-two/the_script.py src/the_script.py   # ← adjust paths
+
+      # --- Python + Nuitka setup ---
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          pip install nuitka
+          pip install -r repo-two/requirements.txt
+
+      # --- Linux: C compiler tooling ---
+      - name: Install build tools (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y patchelf ccache
+
+      # --- Build ---
+      - name: Build with Nuitka (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          python -m nuitka \
+            --standalone \
+            --onefile \
+            --include-package=repo_one \
+            --follow-imports \
+            --output-filename=myapp \
+            --output-dir=dist \
+            repo-two/OSCLeash.py
+
+      - name: Build with Nuitka (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          python -m nuitka ^
+            --standalone ^
+            --onefile ^
+            --include-package=repo_one ^
+            --follow-imports ^
+            --output-filename=myapp.exe ^
+            --output-dir=dist ^
+            repo-two\OSCLeash.py
+
+      # --- Upload ---
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: dist/myapp${{ matrix.output-ext }}
+          retention-days: 30
