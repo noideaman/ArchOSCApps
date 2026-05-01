@@ -1,15 +1,16 @@
-# Maintainer: noideaman <pkgbuilds@weebvr.com?
-# Contributor: ZenithVal <https://github.com/ZenithVal>
+# Maintainer: noideaman <pkgbuilds@weebvr.com>
+
 pkgname=oscleash
+_pkgname=OSCLeash
 pkgver=2.2.0
 pkgrel=6
 pkgdesc="Get pulled around in VRChat"
 arch=("any")
-url="https://github.com/ZenithVal//$pkgname"
+url="https://github.com/ZenithVal/$pkgname"
 license=("MIT")
 depends=("python" "python-osc" "python-inputs")
 makedepends=("python-setuptools")
-conflicts=("${pkgname}" "${pkgname}-git")
+conflicts=("${pkgname}" "${pkgname}-git" "${pkgname}-nuitka")
 source=("https://github.com/ZenithVal/${pkgname}/archive/refs/tags/v${pkgver}.tar.gz"
         "OSCLeash.desktop"
         "OSCLeash.svg"
@@ -21,8 +22,8 @@ sha256sums=('ced2294cd4245c37ac77969dd17d9819a0d197a40fdbda7913c33551524aae88'
 
 package() {
     # Extract and copy everything to /opt
-    install -dm755 "$pkgdir/opt/$pkgname"
-    cp -r "$srcdir/$pkgname-$pkgver/"* "$pkgdir/opt/$pkgname/"
+    install -dm757 "$pkgdir/opt/$_pkgname"
+    cp -r "$srcdir/$_pkgname-$pkgver/"* "$pkgdir/opt/$_pkgname/"
     
     # Install desktop file
     install -Dm644 "$srcdir/OSCLeash.desktop" \
@@ -35,5 +36,6 @@ package() {
     #install launcher
     install -Dm755 "$srcdir/oscleash" \
         "$pkgdir/usr/bin/oscleash"
-
+    #remove Config.json to let the program generate it on first launch
+    rm -f $pkgdir/opt/$_pkgname/Config.json
 }
