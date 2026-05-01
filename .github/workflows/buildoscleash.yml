@@ -12,11 +12,11 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            artifact-name: OSCLeash-linux
+            artifact-name: myapp-linux
             output-ext: ""
-          - os: windows-latest
-            artifact-name: OSCLeash-windows
-            output-ext: ".exe"
+          #- os: windows-latest
+            #artifact-name: myapp-windows
+            #output-ext: ".exe"
 
     runs-on: ${{ matrix.os }}
 
