@@ -1,6 +1,6 @@
 # Maintainer: noideaman <pkgbuilds@weebvr.com?
 # Contributor: ZenithVal <https://github.com/ZenithVal>
-pkgname=OSCLeash
+pkgname=oscleash
 pkgver=2.2.0
 pkgrel=6
 pkgdesc="Get pulled around in VRChat"
