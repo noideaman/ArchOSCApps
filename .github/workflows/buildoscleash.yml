@@ -48,9 +48,9 @@ jobs:
       - name: Install dependencies (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
+        env:
+          VGAMEPAD_SKIP_VIGEMBUS_INSTALL: "true"
         run: |
-          pip install setuptools wheel
-          pip install vgamepad --no-build-isolation
           pip install -r OSCLeash/requirements.txt
           # Pre-install ziglang and zstandard so Nuitka doesn't prompt
           pip install nuitka ziglang zstandard
