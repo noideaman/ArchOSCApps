@@ -1,0 +1,37 @@
+# Maintainer: noideaman <pkgbuilds@weebvr.com>
+
+pkgname=vrchat-avatar-scaler
+_pkgname=VRChat-Avatar-Scaler
+pkgver=0.2.1
+pkgrel=1
+pkgdesc="Control your avatar's scale via OSC"
+arch=("any")
+url="https://github.com/SalbugVR/_$pkgname"
+license=("MIT")
+depends=("python" "python-osc" "python-inputs" "python-pillow" "python-psutil")
+makedepends=("python-setuptools")
+conflicts=("${pkgname}-git" "${pkgname}-nuitka" "${pkgname}-nuitka-git")
+source=("https://github.com/SalbugVR/${_pkgname}/archive/refs/tags/v${pkgver}.tar.gz"
+        "vrchat_avatar_scaler.desktop"
+	"vrchat_avatar_scaler"
+	"scaler_config.json")
+sha256sums=('SKIP'
+            'c3cbf6b89487fd0c2469317cf5348ce4ad8f0cf664390ceee72e4721bfbb78bb'
+            '9685a2710c75091518e63fcee4a455f8e75dfa204336ca47379b5b290c3aaacb'
+            '4e5faca98290b8d3d3bdc73aa6d7da8b20922d8ab8dc7e99d5da637be2ff43f3')
+package() {
+    #make the dir writable to all
+    install -dm757 "$pkgdir/opt/${pkgname}"
+    # Install python file
+    cp "$srcdir/${_pkgname}-${pkgver}/vrchat_avatar_scaler.pyw" "${pkgdir}/opt/${pkgname}/vrchat_avatar_scaler.pyw"
+    # Install config file
+    cp "$srcdir/scaler_config.json" "$pkgdir/opt/${pkgname}/scaler_config.json.example"
+    
+    # Install desktop file
+    install -Dm644 "$srcdir/vrchat_avatar_scaler.desktop" \
+        "$pkgdir/usr/share/applications/vrchat_avatar_scaler.desktop"
+    
+    #install launcher
+    install -Dm755 "$srcdir/vrchat_avatar_scaler" \
+        "$pkgdir/usr/bin/vrchat_avatar_scaler"
+}
